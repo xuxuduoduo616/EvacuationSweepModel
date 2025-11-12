@@ -1,3 +1,6 @@
+import java.util.Map;
+
+import scenario.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -20,9 +23,6 @@ public class Main {
         System.out.println("║                    最终结果汇总                        ║");
         System.out.println("╚════════════════════════════════════════════════════════╝\n");
 
-        Scenario1 scen1 = new Scenario1();
-        Scenario2 scen2 = new Scenario2();
-        Scenario3 scen3 = new Scenario3();
         Map<String, Object> result1 = Scenario1.getResults();
         Map<String, Object> result2 = Scenario2.getResults();
         Map<String, Object> result3 = Scenario3.getResults();
