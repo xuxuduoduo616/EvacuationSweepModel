@@ -8,6 +8,7 @@ public class Main {
         System.out.println("║   紧急疏散扫清优化模型 - Emergency Evacuation Sweeps    ║");
         System.out.println("╚════════════════════════════════════════════════════════╝");
 
+        // 提示开始运行
         System.out.println("\n开始运行所有场景...\n");
 
         // 运行场景1
