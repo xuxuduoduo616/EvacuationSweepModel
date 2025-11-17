@@ -20,7 +20,7 @@ public class PathOptimizer {
             Room nearest = findNearestRoom(current, remaining, distanceMatrix);
 
             if (nearest == null) {
-                System.err.println("警告：无法找到下一个房间");
+                System.err.println("Warning:Unable to find next room");
                 break;
             }
 

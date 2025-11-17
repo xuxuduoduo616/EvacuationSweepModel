@@ -7,12 +7,12 @@ import java.util.*;
 public class Scenario1 {
 
     public static void run() {
-        System.out.println("\n========== 场景1：基础办公楼 ==========\n");
+        System.out.println("\n========== Scenario 1: Basic Office Building ==========\n");
 
         Building office = new Building("Office Building - Scenario 1", 1);
-        System.out.println("建筑: " + office.getName());
+        System.out.println("Building: " + office.getName());
 
-        System.out.println("\n--- 房间配置 ---");
+        System.out.println("\n--- Room Configuration ---");
         Room[] rooms = new Room[6];
         rooms[0] = new Room("L1", 30, 1, 0, "Office");
         rooms[1] = new Room("L2", 30, 1, 0, "Office");
@@ -23,11 +23,11 @@ public class Scenario1 {
 
         for (Room room : rooms) {
             office.addRoom(0, room);
-            System.out.println("  " + room.getId() + ": 面积=" + room.getArea() +
-                    "m², 检查时间=" + String.format("%.2f", room.getCheckTime()) + "分钟");
+            System.out.println("  " + room.getId() + ": Area=" + room.getArea() +
+                    "m², Check time=" + String.format("%.2f", room.getCheckTime()) + " minutes");
         }
 
-        System.out.println("\n--- 距离矩阵 ---");
+        System.out.println("\n--- Distance Matrix ---");
         office.setDistance("L1", "L2", 10);
         office.setDistance("L2", "L3", 10);
         office.setDistance("R1", "R2", 10);
@@ -40,9 +40,9 @@ public class Scenario1 {
         System.out.println("  R1-R2: 10m, R2-R3: 10m");
         System.out.println("  L3-R1: 20m, L3-R3: 40m");
 
-        System.out.println("\n--- 人员配置 ---");
-        Responder responder1 = new Responder("消防员1", 1.5);
-        Responder responder2 = new Responder("消防员2", 1.5);
+        System.out.println("\n--- Personnel Configuration ---");
+        Responder responder1 = new Responder("Firefighter 1", 1.5);
+        Responder responder2 = new Responder("Firefighter 2", 1.5);
 
         responder1.setStartRoom(rooms[0]);
         responder1.setEndRoom(rooms[0]);
@@ -50,45 +50,45 @@ public class Scenario1 {
         responder2.setStartRoom(rooms[5]);
         responder2.setEndRoom(rooms[5]);
 
-        System.out.println("  消防员1: 速度=1.5 m/s, 起点=L1, 终点=L1");
-        System.out.println("  消防员2: 速度=1.5 m/s, 起点=R3, 终点=R3");
+        System.out.println("  Firefighter 1: Speed=1.5 m/s, Start=L1, End=L1");
+        System.out.println("  Firefighter 2: Speed=1.5 m/s, Start=R3, End=R3");
 
-        System.out.println("\n--- 房间分配 ---");
+        System.out.println("\n--- Room Allocation ---");
         GreedyAlgorithm.allocateRoomsByPartition(
                 new Responder[]{responder1, responder2},
                 Arrays.asList(rooms),
                 office
         );
 
-        System.out.println("  消防员1检查: " + responder1.getPathIds());
-        System.out.println("  消防员2检查: " + responder2.getPathIds());
+        System.out.println("  Firefighter 1 checks: " + responder1.getPathIds());
+        System.out.println("  Firefighter 2 checks: " + responder2.getPathIds());
 
         Responder[] responders = {responder1, responder2};
         EvacuationModel model = new EvacuationModel(office, responders);
 
-        System.out.println("\n--- 耗时计算 ---");
+        System.out.println("\n--- Time Calculation ---");
         double time1 = responder1.calculateTotalTime(office);
         double time2 = responder2.calculateTotalTime(office);
         double totalTime = model.calculateTotalTime();
 
-        System.out.println("  消防员1:");
-        System.out.println("    检查时间: " + String.format("%.2f", responder1.getCheckTime()) + " 分钟");
-        System.out.println("    移动时间: " + String.format("%.2f", responder1.getMoveTime()) + " 分钟");
-        System.out.println("    总耗时: " + String.format("%.2f", time1) + " 分钟");
+        System.out.println("  Firefighter 1:");
+        System.out.println("    Check time: " + String.format("%.2f", responder1.getCheckTime()) + " minutes");
+        System.out.println("    Move time: " + String.format("%.2f", responder1.getMoveTime()) + " minutes");
+        System.out.println("    Total time: " + String.format("%.2f", time1) + " minutes");
 
-        System.out.println("  消防员2:");
-        System.out.println("    检查时间: " + String.format("%.2f", responder2.getCheckTime()) + " 分钟");
-        System.out.println("    移动时间: " + String.format("%.2f", responder2.getMoveTime()) + " 分钟");
-        System.out.println("    总耗时: " + String.format("%.2f", time2) + " 分钟");
+        System.out.println("  Firefighter 2:");
+        System.out.println("    Check time: " + String.format("%.2f", responder2.getCheckTime()) + " minutes");
+        System.out.println("    Move time: " + String.format("%.2f", responder2.getMoveTime()) + " minutes");
+        System.out.println("    Total time: " + String.format("%.2f", time2) + " minutes");
 
-        System.out.println("\n  ★ 总耗时: " + String.format("%.2f", totalTime) + " 分钟 ★");
+        System.out.println("\n  ★ Total time: " + String.format("%.2f", totalTime) + " minutes ★");
 
-        System.out.println("\n--- 解验证 ---");
+        System.out.println("\n--- Solution Validation ---");
         boolean valid = model.validateSolution();
         if (valid) {
-            System.out.println("  ✓ 解有效");
+            System.out.println("  ✓ Solution is valid");
         } else {
-            System.out.println("  ✗ 解无效");
+            System.out.println("  ✗ Solution is invalid");
         }
 
         System.out.println(model.generateReport());
@@ -118,8 +118,8 @@ public class Scenario1 {
         office.setDistance("L3", "R3", 40);
         office.setDistance("L1", "R1", 40);
 
-        Responder responder1 = new Responder("消防员1", 1.5);
-        Responder responder2 = new Responder("消防员2", 1.5);
+        Responder responder1 = new Responder("Firefighter 1", 1.5);
+        Responder responder2 = new Responder("Firefighter 2", 1.5);
 
         responder1.setStartRoom(rooms[0]);
         responder1.setEndRoom(rooms[0]);

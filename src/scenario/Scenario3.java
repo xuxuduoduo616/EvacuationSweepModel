@@ -4,53 +4,49 @@ import model.*;
 import algorithm.*;
 import java.util.*;
 
-/**
- * 场景3：工业仓库
- * 1层，8个仓库，6名人员
- * 改进版本：参数更合理，耗时更均衡
- */
+
 public class Scenario3 {
 
     public static void run() {
-        System.out.println("\n========== 场景3：工业仓库 ==========\n");
+        System.out.println("\n========== Scenario 3: Industrial Warehouse ==========\n");
 
         Building warehouse = new Building("Warehouse - Scenario 3", 1);
-        System.out.println("建筑: " + warehouse.getName());
+        System.out.println("Building: " + warehouse.getName());
 
-        System.out.println("\n--- 房间配置 ---");
-        // 改进：使用更小、更合理的仓库面积
+        System.out.println("\n--- Room Configuration ---");
+        
         Room[] warehouses = new Room[8];
-        int[] areas = {150, 160, 170, 180, 190, 200, 210, 220};  // 更合理的面积
+        int[] areas = {150, 160, 170, 180, 190, 200, 210, 220};  
 
         for (int i = 0; i < 8; i++) {
             warehouses[i] = new Room("Warehouse_" + (i + 1), areas[i], 2, 0, "Warehouse");
             warehouse.addRoom(0, warehouses[i]);
-            System.out.println("  Warehouse_" + (i + 1) + ": 面积=" + warehouses[i].getArea() +
-                    "m², 检查时间=" + String.format("%.2f", warehouses[i].getCheckTime()) + "分钟");
+            System.out.println("  Warehouse_" + (i + 1) + ": Area=" + warehouses[i].getArea() +
+                    "m², Check time=" + String.format("%.2f", warehouses[i].getCheckTime()) + " minutes");
         }
 
-        System.out.println("\n--- 距离矩阵设置 ---");
-        // 设置仓库之间的距离
+        System.out.println("\n--- Distance Matrix Setup ---");
+        
         for (int i = 0; i < 8; i++) {
             for (int j = i + 1; j < 8; j++) {
-                double dist = 15 + Math.abs(i - j) * 5;  // 更合理的距离
+                double dist = 15 + Math.abs(i - j) * 5;  
                 warehouse.setDistance("Warehouse_" + (i + 1), "Warehouse_" + (j + 1), dist);
             }
         }
-        System.out.println("  距离设置完成");
+        System.out.println("  Distance setup complete");
 
-        System.out.println("\n--- 人员配置 ---");
-        // 改进：增加人员数量到8名，使分配更均匀
+        System.out.println("\n--- Personnel Configuration ---");
+        
         Responder[] responders = new Responder[8];
         for (int i = 0; i < 8; i++) {
-            responders[i] = new Responder("人员" + (i + 1), 1.5);
+            responders[i] = new Responder("Personnel " + (i + 1), 1.5);
         }
-        System.out.println("  8名应急人员，速度=1.5 m/s");
+        System.out.println("  8 emergency personnel, speed=1.5 m/s");
 
-        System.out.println("\n--- 房间分配 ---");
-        // 改进：每个人员只负责1-2个仓库，分配更均匀
+        System.out.println("\n--- Room Allocation ---");
+        
 
-        // 人员1-2：各检查1个仓库
+        
         responders[0].setStartRoom(warehouses[0]);
         responders[0].setEndRoom(warehouses[0]);
         responders[0].addRoomToPath(warehouses[0]);
@@ -59,7 +55,7 @@ public class Scenario3 {
         responders[1].setEndRoom(warehouses[1]);
         responders[1].addRoomToPath(warehouses[1]);
 
-        // 人员3-4：各检查2个仓库
+        // Personnel 3-4: Each checks 2 warehouses
         responders[2].setStartRoom(warehouses[2]);
         responders[2].setEndRoom(warehouses[2]);
         responders[2].addRoomToPath(warehouses[2]);
@@ -70,7 +66,7 @@ public class Scenario3 {
         responders[3].addRoomToPath(warehouses[4]);
         responders[3].addRoomToPath(warehouses[5]);
 
-        // 人员5-6：各检查1个仓库
+        // Personnel 5-6: Each checks 1 warehouse
         responders[4].setStartRoom(warehouses[6]);
         responders[4].setEndRoom(warehouses[6]);
         responders[4].addRoomToPath(warehouses[6]);
@@ -79,7 +75,7 @@ public class Scenario3 {
         responders[5].setEndRoom(warehouses[7]);
         responders[5].addRoomToPath(warehouses[7]);
 
-        // 人员7-8：冗余检查（备用）
+        // Personnel 7-8: Redundant checks (backup)
         responders[6].setStartRoom(warehouses[0]);
         responders[6].setEndRoom(warehouses[0]);
         responders[6].addRoomToPath(warehouses[0]);
@@ -88,31 +84,31 @@ public class Scenario3 {
         responders[7].setEndRoom(warehouses[1]);
         responders[7].addRoomToPath(warehouses[1]);
 
-        System.out.println("  人员1: Warehouse_1");
-        System.out.println("  人员2: Warehouse_2");
-        System.out.println("  人员3: Warehouse_3, Warehouse_4");
-        System.out.println("  人员4: Warehouse_5, Warehouse_6");
-        System.out.println("  人员5: Warehouse_7");
-        System.out.println("  人员6: Warehouse_8");
-        System.out.println("  人员7-8: 冗余检查");
+        System.out.println("  Personnel 1: Warehouse_1");
+        System.out.println("  Personnel 2: Warehouse_2");
+        System.out.println("  Personnel 3: Warehouse_3, Warehouse_4");
+        System.out.println("  Personnel 4: Warehouse_5, Warehouse_6");
+        System.out.println("  Personnel 5: Warehouse_7");
+        System.out.println("  Personnel 6: Warehouse_8");
+        System.out.println("  Personnel 7-8: Redundant checks");
 
-        System.out.println("\n--- 耗时计算 ---");
+        System.out.println("\n--- Time Calculation ---");
         EvacuationModel model = new EvacuationModel(warehouse, responders);
         double totalTime = model.calculateTotalTime();
 
         for (Responder responder : responders) {
             System.out.println("  " + responder.getId() + ": " +
-                    String.format("%.2f", responder.getTotalTime()) + " 分钟");
+                    String.format("%.2f", responder.getTotalTime()) + " minutes");
         }
 
-        System.out.println("\n  ★ 总耗时: " + String.format("%.2f", totalTime) + " 分钟 ★");
+        System.out.println("\n  ★ Total time: " + String.format("%.2f", totalTime) + " minutes ★");
 
-        System.out.println("\n--- 解验证 ---");
+        System.out.println("\n--- Solution Validation ---");
         boolean valid = model.validateSolution();
         if (valid) {
-            System.out.println("  ✓ 解有效");
+            System.out.println("  ✓ Solution is valid");
         } else {
-            System.out.println("  ✗ 解无效");
+            System.out.println("  ✗ Solution is invalid");
         }
 
         System.out.println(model.generateReport());
@@ -140,7 +136,7 @@ public class Scenario3 {
 
         Responder[] responders = new Responder[8];
         for (int i = 0; i < 8; i++) {
-            responders[i] = new Responder("人员" + (i + 1), 1.5);
+            responders[i] = new Responder("Personnel " + (i + 1), 1.5);
         }
 
         // 改进的分配方式

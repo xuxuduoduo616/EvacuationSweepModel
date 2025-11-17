@@ -18,14 +18,14 @@ public class EvacuationModel {
     }
 
     public void optimize() {
-        addLog("开始优化扫清策略...");
-        addLog("建筑: " + building.getName());
-        addLog("房间数: " + building.getTotalRooms());
-        addLog("人员数: " + responders.length);
+        addLog("Starting optimization");
+        addLog("Building: " + building.getName());
+        addLog("Number of rooms: " + building.getTotalRooms());
+        addLog("Number of responders: " + responders.length);
     }
 
     public boolean validateSolution() {
-        addLog("验证解的可行性...");
+        addLog("Verify the feasibility of solution");
 
         Set<String> checkedRooms = new HashSet<>();
         for (Responder responder : responders) {
@@ -40,10 +40,10 @@ public class EvacuationModel {
         }
 
         if (!checkedRooms.equals(allRooms)) {
-            addLog("✗ 错误：不是所有房间都被检查");
+            addLog("✗ Error: Not all rooms have been checked");
             return false;
         }
-        addLog("✓ 所有房间都被检查");
+        addLog("✓ All rooms have been checked");
 
         for (Responder responder : responders) {
             List<Room> path = responder.getPath();
@@ -52,15 +52,15 @@ public class EvacuationModel {
                     double dist = building.getDistance(path.get(i).getId(),
                             path.get(i + 1).getId());
                     if (dist == Double.MAX_VALUE) {
-                        addLog("✗ 错误：路径不连通 " + path.get(i).getId() +
+                        addLog("✗ Error: The path is disconnected " + path.get(i).getId() +
                                 " -> " + path.get(i + 1).getId());
                         return false;
                     }
                 }
             }
         }
-        addLog("✓ 路径连通");
-        addLog("✓ 解可行");
+        addLog("✓ Path connected");
+        addLog("✓ Solution feasible");
         return true;
     }
 
@@ -78,25 +78,25 @@ public class EvacuationModel {
 
     public String generateReport() {
         StringBuilder report = new StringBuilder();
-        report.append("\n========== 优化报告 ==========\n");
-        report.append("建筑: ").append(building.getName()).append("\n");
-        report.append("房间总数: ").append(building.getTotalRooms()).append("\n");
-        report.append("人员总数: ").append(responders.length).append("\n");
-        report.append("总耗时: ").append(String.format("%.2f", totalTime)).append(" 分钟\n");
-        report.append("\n--- 人员详情 ---\n");
+        report.append("\n========== Optimization Report ==========\n");
+        report.append("Building: ").append(building.getName()).append("\n");
+        report.append("Number of rooms: ").append(building.getTotalRooms()).append("\n");
+        report.append("Number of responders: ").append(responders.length).append("\n");
+        report.append("Total time consumed: ").append(String.format("%.2f", totalTime)).append(" minutes\n");
+        report.append("\n--- Personnel Details ---\n");
 
         for (Responder responder : responders) {
             report.append("\n").append(responder.getId()).append(":\n");
-            report.append("  检查房间: ").append(responder.getPathIds()).append("\n");
-            report.append("  检查时间: ").append(String.format("%.2f", responder.getCheckTime()))
-                    .append(" 分钟\n");
-            report.append("  移动时间: ").append(String.format("%.2f", responder.getMoveTime()))
-                    .append(" 分钟\n");
-            report.append("  总耗时: ").append(String.format("%.2f", responder.getTotalTime()))
-                    .append(" 分钟\n");
+            report.append("  Checked rooms: ").append(responder.getPathIds()).append("\n");
+            report.append("  Check time: ").append(String.format("%.2f", responder.getCheckTime()))
+                    .append(" minutes\n");
+            report.append("  Move time: ").append(String.format("%.2f", responder.getMoveTime()))
+                    .append(" minutes\n");
+            report.append("  Total time: ").append(String.format("%.2f", responder.getTotalTime()))
+                    .append(" minutes\n");
         }
 
-        report.append("\n--- 优化日志 ---\n");
+        report.append("\n--- Optimization Log ---\n");
         for (String log : optimizationLog) {
             report.append(log).append("\n");
         }

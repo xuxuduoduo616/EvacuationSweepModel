@@ -21,7 +21,7 @@ public class Building {
 
     public void addRoom(int floor, Room room) {
         if (floor < 0 || floor >= floors) {
-            throw new IllegalArgumentException("楼层号超出范围");
+            throw new IllegalArgumentException("The floor number is out of bounds");
         }
         rooms.get(floor).add(room);
 
@@ -55,7 +55,7 @@ public class Building {
 
     public List<Room> getRoomsOnFloor(int floor) {
         if (floor < 0 || floor >= floors) {
-            throw new IllegalArgumentException("楼层号超出范围");
+            throw new IllegalArgumentException("The floor number is out of bounds");
         }
         return rooms.get(floor);
     }

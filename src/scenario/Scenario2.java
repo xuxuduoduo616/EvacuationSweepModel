@@ -7,14 +7,14 @@ import java.util.*;
 public class Scenario2 {
 
     public static void run() {
-        System.out.println("\n========== 场景2：多层医院 ==========\n");
+        System.out.println("\n========== Scenario 2: Multi-floor Hospital ==========\n");
 
         Building hospital = new Building("Hospital - Scenario 2", 3);
-        System.out.println("建筑: " + hospital.getName());
+        System.out.println("Building: " + hospital.getName());
 
-        System.out.println("\n--- 房间配置 ---");
+        System.out.println("\n--- Room Configuration ---");
 
-        // 第1层：高优先级
+        // Floor 1: High Priority
         Room icu = new Room("ICU", 100, 3, 0, "ICU");
         Room surgery = new Room("Surgery", 80, 3, 0, "Surgery");
         Room emergency = new Room("Emergency", 60, 2, 0, "Emergency");
@@ -23,32 +23,32 @@ public class Scenario2 {
         hospital.addRoom(0, surgery);
         hospital.addRoom(0, emergency);
 
-        System.out.println("  第1层（高优先级）:");
-        System.out.println("    ICU: 面积=100m², 检查时间=" + String.format("%.2f", icu.getCheckTime()) + "分钟");
-        System.out.println("    Surgery: 面积=80m², 检查时间=" + String.format("%.2f", surgery.getCheckTime()) + "分钟");
-        System.out.println("    Emergency: 面积=60m², 检查时间=" + String.format("%.2f", emergency.getCheckTime()) + "分钟");
+        System.out.println("  Floor 1 (High Priority):");
+        System.out.println("    ICU: Area=100m², Check time=" + String.format("%.2f", icu.getCheckTime()) + " minutes");
+        System.out.println("    Surgery: Area=80m², Check time=" + String.format("%.2f", surgery.getCheckTime()) + " minutes");
+        System.out.println("    Emergency: Area=60m², Check time=" + String.format("%.2f", emergency.getCheckTime()) + " minutes");
 
-        // 第2层：普通病房
-        System.out.println("  第2层（普通病房）:");
+        // Floor 2: General Wards
+        System.out.println("  Floor 2 (General Wards):");
         for (int i = 1; i <= 20; i++) {
             Room ward = new Room("Ward_" + i, 20, 2, 1, "Ward");
             hospital.addRoom(1, ward);
         }
-        System.out.println("    20间病房，每间面积=20m²");
+        System.out.println("    20 wards, each with an area of 20m²");
 
-        // 第3层：办公室和存储室
+        // Floor 3: Offices and Storage Rooms
         Room office = new Room("Office", 40, 1, 2, "Office");
         Room storage = new Room("Storage", 50, 1, 2, "Storage");
 
         hospital.addRoom(2, office);
         hospital.addRoom(2, storage);
 
-        System.out.println("  第3层（低优先级）:");
-        System.out.println("    Office: 面积=40m², 检查时间=" + String.format("%.2f", office.getCheckTime()) + "分钟");
-        System.out.println("    Storage: 面积=50m², 检查时间=" + String.format("%.2f", storage.getCheckTime()) + "分钟");
+        System.out.println("  Floor 3 (Low Priority):");
+        System.out.println("    Office: Area=40m², Check time=" + String.format("%.2f", office.getCheckTime()) + " minutes");
+        System.out.println("    Storage: Area=50m², Check time=" + String.format("%.2f", storage.getCheckTime()) + " minutes");
 
-        // 设置距离
-        System.out.println("\n--- 距离矩阵设置 ---");
+        // Set distances
+        System.out.println("\n--- Distance Matrix Setup ---");
         hospital.setDistance("ICU", "Surgery", 15);
         hospital.setDistance("Surgery", "Emergency", 15);
 
@@ -62,18 +62,18 @@ public class Scenario2 {
         hospital.setDistance("Emergency", "Ward_1", 30);
         hospital.setDistance("Ward_20", "Office", 40);
 
-        System.out.println("  距离设置完成");
+        System.out.println("  Distance setup complete");
 
-        // 创建人员
-        System.out.println("\n--- 人员配置 ---");
+        // Create personnel
+        System.out.println("\n--- Personnel Configuration ---");
         Responder[] responders = new Responder[4];
         for (int i = 0; i < 4; i++) {
-            responders[i] = new Responder("人员" + (i + 1), 1.2);
+            responders[i] = new Responder("Personnel " + (i + 1), 1.2);
         }
-        System.out.println("  4名应急人员，速度=1.2 m/s");
+        System.out.println("  4 emergency personnel, speed=1.2 m/s");
 
-        // 分配房间（优先级导向）
-        System.out.println("\n--- 房间分配 ---");
+        // Allocate rooms (priority-based)
+        System.out.println("\n--- Room Allocation ---");
         responders[0].setStartRoom(icu);
         responders[0].setEndRoom(icu);
         responders[0].addRoomToPath(icu);
@@ -97,28 +97,28 @@ public class Scenario2 {
         responders[3].addRoomToPath(office);
         responders[3].addRoomToPath(storage);
 
-        System.out.println("  人员1: 检查第1层（高优先级）");
-        System.out.println("  人员2-3: 分别检查第2层的10间病房");
-        System.out.println("  人员4: 检查第3层");
+        System.out.println("  Personnel 1: Checks Floor 1 (High Priority)");
+        System.out.println("  Personnel 2-3: Each checks 10 wards on Floor 2");
+        System.out.println("  Personnel 4: Checks Floor 3");
 
-        // 计算结果
-        System.out.println("\n--- 耗时计算 ---");
+        // Calculate results
+        System.out.println("\n--- Time Calculation ---");
         EvacuationModel model = new EvacuationModel(hospital, responders);
         double totalTime = model.calculateTotalTime();
 
         for (Responder responder : responders) {
             System.out.println("  " + responder.getId() + ": " +
-                    String.format("%.2f", responder.getTotalTime()) + " 分钟");
+                    String.format("%.2f", responder.getTotalTime()) + " minutes");
         }
 
-        System.out.println("\n  ★ 总耗时: " + String.format("%.2f", totalTime) + " 分钟 ★");
+        System.out.println("\n  ★ Total time: " + String.format("%.2f", totalTime) + " minutes ★");
 
-        System.out.println("\n--- 解验证 ---");
+        System.out.println("\n--- Solution Validation ---");
         boolean valid = model.validateSolution();
         if (valid) {
-            System.out.println("  ✓ 解有效");
+            System.out.println("  ✓ Solution is valid");
         } else {
-            System.out.println("  ✗ 解无效");
+            System.out.println("  ✗ Solution is invalid");
         }
 
         System.out.println(model.generateReport());
@@ -163,7 +163,7 @@ public class Scenario2 {
 
         Responder[] responders = new Responder[4];
         for (int i = 0; i < 4; i++) {
-            responders[i] = new Responder("人员" + (i + 1), 1.2);
+            responders[i] = new Responder("Personnel " + (i + 1), 1.2);
         }
 
         responders[0].setStartRoom(icu);
