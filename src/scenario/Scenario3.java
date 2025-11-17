@@ -119,7 +119,7 @@ public class Scenario3 {
 
         Building warehouse = new Building("Warehouse - Scenario 3", 1);
 
-        // 改进的参数
+        
         int[] areas = {150, 160, 170, 180, 190, 200, 210, 220};
         Room[] warehouses = new Room[8];
         for (int i = 0; i < 8; i++) {
@@ -139,7 +139,7 @@ public class Scenario3 {
             responders[i] = new Responder("Personnel " + (i + 1), 1.5);
         }
 
-        // 改进的分配方式
+        
         responders[0].setStartRoom(warehouses[0]);
         responders[0].setEndRoom(warehouses[0]);
         responders[0].addRoomToPath(warehouses[0]);
