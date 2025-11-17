@@ -18,7 +18,7 @@ public class Scenario3 {
         System.out.println("建筑: " + warehouse.getName());
 
         System.out.println("\n--- 房间配置 ---");
-        // 改进：使用更小、更合理的仓库面积
+        
         Room[] warehouses = new Room[8];
         int[] areas = {150, 160, 170, 180, 190, 200, 210, 220};  // 更合理的面积
 
@@ -30,7 +30,7 @@ public class Scenario3 {
         }
 
         System.out.println("\n--- 距离矩阵设置 ---");
-        // 设置仓库之间的距离
+        
         for (int i = 0; i < 8; i++) {
             for (int j = i + 1; j < 8; j++) {
                 double dist = 15 + Math.abs(i - j) * 5;  // 更合理的距离
@@ -40,7 +40,7 @@ public class Scenario3 {
         System.out.println("  距离设置完成");
 
         System.out.println("\n--- 人员配置 ---");
-        // 改进：增加人员数量到8名，使分配更均匀
+        
         Responder[] responders = new Responder[8];
         for (int i = 0; i < 8; i++) {
             responders[i] = new Responder("人员" + (i + 1), 1.5);
@@ -48,9 +48,9 @@ public class Scenario3 {
         System.out.println("  8名应急人员，速度=1.5 m/s");
 
         System.out.println("\n--- 房间分配 ---");
-        // 改进：每个人员只负责1-2个仓库，分配更均匀
+        
 
-        // 人员1-2：各检查1个仓库
+        
         responders[0].setStartRoom(warehouses[0]);
         responders[0].setEndRoom(warehouses[0]);
         responders[0].addRoomToPath(warehouses[0]);
@@ -59,7 +59,7 @@ public class Scenario3 {
         responders[1].setEndRoom(warehouses[1]);
         responders[1].addRoomToPath(warehouses[1]);
 
-        // 人员3-4：各检查2个仓库
+        
         responders[2].setStartRoom(warehouses[2]);
         responders[2].setEndRoom(warehouses[2]);
         responders[2].addRoomToPath(warehouses[2]);
@@ -70,7 +70,7 @@ public class Scenario3 {
         responders[3].addRoomToPath(warehouses[4]);
         responders[3].addRoomToPath(warehouses[5]);
 
-        // 人员5-6：各检查1个仓库
+        
         responders[4].setStartRoom(warehouses[6]);
         responders[4].setEndRoom(warehouses[6]);
         responders[4].addRoomToPath(warehouses[6]);
@@ -79,7 +79,7 @@ public class Scenario3 {
         responders[5].setEndRoom(warehouses[7]);
         responders[5].addRoomToPath(warehouses[7]);
 
-        // 人员7-8：冗余检查（备用）
+        
         responders[6].setStartRoom(warehouses[0]);
         responders[6].setEndRoom(warehouses[0]);
         responders[6].addRoomToPath(warehouses[0]);
@@ -123,7 +123,7 @@ public class Scenario3 {
 
         Building warehouse = new Building("Warehouse - Scenario 3", 1);
 
-        // 改进的参数
+        
         int[] areas = {150, 160, 170, 180, 190, 200, 210, 220};
         Room[] warehouses = new Room[8];
         for (int i = 0; i < 8; i++) {
@@ -143,7 +143,7 @@ public class Scenario3 {
             responders[i] = new Responder("人员" + (i + 1), 1.5);
         }
 
-        // 改进的分配方式
+        
         responders[0].setStartRoom(warehouses[0]);
         responders[0].setEndRoom(warehouses[0]);
         responders[0].addRoomToPath(warehouses[0]);
